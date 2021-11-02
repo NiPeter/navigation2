@@ -53,20 +53,20 @@ BtActionServer<ActionT>::BtActionServer(
   clock_ = node->get_clock();
 
   // Declare this node's parameters
-  if (!node->has_parameter("bt_loop_duration")) {
-    node->declare_parameter("bt_loop_duration", 10);
+  if (!node->has_parameter(action_name_ + ".bt_loop_duration")) {
+    node->declare_parameter(action_name_ + ".bt_loop_duration", 10);
   }
-  if (!node->has_parameter("default_server_timeout")) {
-    node->declare_parameter("default_server_timeout", 20);
+  if (!node->has_parameter(action_name_ + ".default_server_timeout")) {
+    node->declare_parameter(action_name_ + ".default_server_timeout", 20);
   }
-  if (!node->has_parameter("enable_groot_monitoring")) {
-    node->declare_parameter("enable_groot_monitoring", true);
+  if (!node->has_parameter(action_name_ + ".enable_groot_monitoring")) {
+    node->declare_parameter(action_name_ + ".enable_groot_monitoring", true);
   }
-  if (!node->has_parameter("groot_zmq_publisher_port")) {
-    node->declare_parameter("groot_zmq_publisher_port", 1666);
+  if (!node->has_parameter(action_name_ + ".groot_zmq_publisher_port")) {
+    node->declare_parameter(action_name_ + ".groot_zmq_publisher_port", 1666);
   }
-  if (!node->has_parameter("groot_zmq_server_port")) {
-    node->declare_parameter("groot_zmq_server_port", 1667);
+  if (!node->has_parameter(action_name_ + ".groot_zmq_server_port")) {
+    node->declare_parameter(action_name_ + ".groot_zmq_server_port", 1667);
   }
 }
 
@@ -103,15 +103,15 @@ bool BtActionServer<ActionT>::on_configure()
     action_name_, std::bind(&BtActionServer<ActionT>::executeCallback, this));
 
   // Get parameter for monitoring with Groot via ZMQ Publisher
-  node->get_parameter("enable_groot_monitoring", enable_groot_monitoring_);
-  node->get_parameter("groot_zmq_publisher_port", groot_zmq_publisher_port_);
-  node->get_parameter("groot_zmq_server_port", groot_zmq_server_port_);
+  node->get_parameter(action_name_ + ".enable_groot_monitoring", enable_groot_monitoring_);
+  node->get_parameter(action_name_ + ".groot_zmq_publisher_port", groot_zmq_publisher_port_);
+  node->get_parameter(action_name_ + ".groot_zmq_server_port", groot_zmq_server_port_);
 
   // Get parameters for BT timeouts
   int timeout;
-  node->get_parameter("bt_loop_duration", timeout);
+  node->get_parameter(action_name_ + ".bt_loop_duration", timeout);
   bt_loop_duration_ = std::chrono::milliseconds(timeout);
-  node->get_parameter("default_server_timeout", timeout);
+  node->get_parameter(action_name_ + ".default_server_timeout", timeout);
   default_server_timeout_ = std::chrono::milliseconds(timeout);
 
   // Create the class that registers our custom nodes and executes the BT

@@ -18,10 +18,17 @@ find_package(std_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(nav2_util REQUIRED)
 
+set(CMAKE_CONFIG_PATH ${CMAKE_MODULE_PATH}  "${CMAKE_CURRENT_LIST_DIR}/cmake")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CONFIG_PATH}")
+
+find_package(ZMQ REQUIRED)
+
 nav2_package()
 
 include_directories(
   include
+  ${ZMQ_INCLUDE_DIRS}
+  
 )
 
 set(library_name ${PROJECT_NAME})
@@ -45,10 +52,15 @@ set(dependencies
 
 add_library(${library_name} SHARED
   src/behavior_tree_engine.cpp
+  src/bt_zmq_publisher.cpp
 )
 
 ament_target_dependencies(${library_name}
   ${dependencies}
+)
+
+target_link_libraries(${library_name}
+  ${ZMQ_LIBRARIES}
 )
 
 add_library(nav2_compute_path_to_pose_action_bt_node SHARED plugins/action/compute_path_to_pose_action.cpp)

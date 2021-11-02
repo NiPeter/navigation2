@@ -23,7 +23,7 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "behaviortree_cpp_v3/xml_parsing.h"
-#include "behaviortree_cpp_v3/loggers/bt_zmq_publisher.h"
+#include "nav2_behavior_tree/bt_zmq_publisher.h"
 
 
 namespace nav2_behavior_tree
@@ -111,7 +111,7 @@ protected:
   // The factory that will be used to dynamically construct the behavior tree
   BT::BehaviorTreeFactory factory_;
 
-  static inline std::unique_ptr<BT::PublisherZMQ> groot_monitor_;
+  std::unique_ptr<nav2_behavior_tree::PublisherZMQ> groot_monitor_;
 };
 
 }  // namespace nav2_behavior_tree

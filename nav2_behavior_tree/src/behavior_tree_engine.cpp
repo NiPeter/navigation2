@@ -91,7 +91,7 @@ BehaviorTreeEngine::addGrootMonitoring(
   uint16_t max_msg_per_second)
 {
   // This logger publish status changes using ZeroMQ. Used by Groot
-  groot_monitor_ = std::make_unique<BT::PublisherZMQ>(
+  groot_monitor_ = std::make_unique<nav2_behavior_tree::PublisherZMQ>(
     *tree, max_msg_per_second, publisher_port,
     server_port);
 }
